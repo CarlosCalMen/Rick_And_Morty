@@ -9,8 +9,8 @@ const SearchBar = ({onSearch})=> {
    return (
       <div>
          <input type='search' onChange={changeHandler} value={id} />
-         <button onClick={()=>onSearch(id)}>Agregar</button>
-      </div>
+         <button onClick={()=>{onSearch(id); setId('')} }>Agregar</button>
+      </div>  
    );
 }
 

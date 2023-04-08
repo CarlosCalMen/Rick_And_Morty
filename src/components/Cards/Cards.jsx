@@ -6,14 +6,14 @@ import './Cards.css';
 const Cards=({characters,onClose})=> {
    return (
       <div className='contenedor'>
-         {characters.map((character)=>{
+         {characters.map(({id,name,species,gender,image})=>{
          return (<Card
-            key={character.id}      
-            //id={character.id}
-            name={character.name}
-            species={character.species}
-            gender={character.gender} 
-            image={character.image}
+            key={id}      
+            id={id}
+            name={name}
+            species={species}
+            gender={gender} 
+            image={image}
             onClose={onClose}/>)
             })
          }
