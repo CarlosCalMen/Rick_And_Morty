@@ -9,41 +9,40 @@ import Form from './components/Form/Form.jsx';
 import Favorites from './components/Favorites/Favorites.jsx';
 import './App.css';
 
-const URL_BASE='https://be-a-rym.up.railway.app/api/character';
-const API_KEY='364df2af0854.c2572fb0d563d940eb99';
-const EMAIL='carloscalmen11@gmail.com';
-const PASSWORD='carlos123'
-
-
+const URL_BASE='http://localhost:3001/rickandmorty/character';///${id}'//'https://be-a-rym.up.railway.app/api/character';
+//const API_KEY='364df2af0854.c2572fb0d563d940eb99';
+// const EMAIL='carloscalmen11@gmail.com';
+// const PASSWORD='carlos123'
+const URL = 'http://localhost:3001/rickandmorty/login/';
 
 function App() {
-   //<SearchBar onSearch={(characterID) => window.alert(characterID)} />
    const [characters,setCharacters]=useState([]);
    const [access,setAccess] = useState(false);
    const {pathname}=useLocation();
    const navigate=useNavigate();
    
-   const login = (userData)=> {
-      if(userData.email===EMAIL && userData.password===PASSWORD) {
-         setAccess(true);
-         navigate('/home');
+   const login = async (userData) => {
+      try{
+         const { email, password } = userData;
+         const {data} = await axios(URL + `?email=${email}&password=${password}`)
+         const { access } = data;
+         setAccess(data);
+         access && navigate('/home');
+      }  catch (error)
+      {
+         console.log(error.message);
       }   
-   };
+   }
 
-   useEffect(()=>{
-      !access && navigate('/');
-   },[access]);
-
-   const onSearch=(id)=>{
-      if (characters.find((character)=>character.id===Number(id))) return alert('Personaje ya cargado');
-         axios(`${URL_BASE}/${id}?key=${API_KEY}`)
-         .then(({ data }) => {
-          if (data.name) {
-               setCharacters((characters) => [...characters, data]);
-            } else {
-               alert('¡No hay personajes con este ID!');
-            }
-         });
+   const onSearch= async(id)=>{
+      try {
+         if (characters.find((character)=>character.id===+id)) return alert('Personaje ya cargado');
+         const {data} = await axios(`${URL_BASE}/${id}`)
+         if (data.name) 
+         setCharacters((characters)=>[...characters,data]);
+      } catch (error) {
+         alert('No hay personajes con ese ID'); 
+      }
    }
 
    const onClose=(id) => {
