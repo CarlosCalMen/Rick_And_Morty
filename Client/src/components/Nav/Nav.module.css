@@ -1,11 +1,14 @@
 .contenedor{
       border: 3px solid green;
       display:flex;
-      justify-content:space-between;
+      justify-content:flex-end;
 }
 
 .botones{
         display:flex;
         justify-items:flex-start;
 }
+
+
+
 
